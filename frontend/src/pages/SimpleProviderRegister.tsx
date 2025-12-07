@@ -452,6 +452,7 @@ export default function SimpleProviderRegister() {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }
