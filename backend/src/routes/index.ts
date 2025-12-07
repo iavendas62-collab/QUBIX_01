@@ -44,13 +44,120 @@ export function setupRoutes(app: Express, services: any) {
   
   if (!authRouter) {
     console.error('❌ authRouter is undefined! Using fallback routes only.');
+    app.use('/api/auth', simpleAuthRouter);
   } else {
     app.use('/api/auth', authRouter);
     console.log('✅ Auth routes registered from routes/auth.ts');
+    // Also register simple auth as fallback
+    app.use('/api/auth-fallback', simpleAuthRouter);
   }
 
   // AUTH ROUTES SIMPLIFICADAS (fallback)
   const simpleAuthRouter = Router();
+
+  // Register with email (DIRECT IMPLEMENTATION)
+  simpleAuthRouter.post('/register-email', async (req, res) => {
+    try {
+      const { email, password, username, role } = req.body;
+
+      if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password are required' });
+      }
+
+      // Check if user exists
+      const existingUser = await prisma.user.findUnique({
+        where: { email }
+      });
+
+      if (existingUser) {
+        return res.status(400).json({ error: 'Email already registered' });
+      }
+
+      // Create user (simplified - no wallet creation for now)
+      const user = await prisma.user.create({
+        data: {
+          email,
+          username: username || email.split('@')[0],
+          role: (role || 'CONSUMER') as any,
+          qubicAddress: generateQubicAddress(),
+          balance: 1000.0,
+          passwordHash: password // Simplified - should hash in production
+        }
+      });
+
+      // Generate token
+      const token = Buffer.from(JSON.stringify({
+        userId: user.id,
+        email: user.email,
+        qubicAddress: user.qubicAddress
+      })).toString('base64');
+
+      console.log('✅ User registered via email:', user.email);
+
+      res.status(201).json({
+        success: true,
+        token,
+        user: {
+          id: user.id,
+          name: user.username,
+          email: user.email,
+          role: user.role,
+          qubicAddress: user.qubicAddress
+        },
+        wallet: {
+          identity: user.qubicAddress,
+          seed: generateQubicSeed()
+        }
+      });
+    } catch (error: any) {
+      console.error('Register email error:', error);
+      res.status(500).json({ error: 'Registration failed' });
+    }
+  });
+
+  // Login with email (DIRECT IMPLEMENTATION)
+  simpleAuthRouter.post('/login-email', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password are required' });
+      }
+
+      // Find user
+      const user = await prisma.user.findUnique({
+        where: { email }
+      });
+
+      if (!user) {
+        return res.status(401).json({ error: 'Invalid email or password' });
+      }
+
+      // Generate token
+      const token = Buffer.from(JSON.stringify({
+        userId: user.id,
+        email: user.email,
+        qubicAddress: user.qubicAddress
+      })).toString('base64');
+
+      console.log('✅ User logged in via email:', user.email);
+
+      res.json({
+        success: true,
+        token,
+        user: {
+          id: user.id,
+          name: user.username,
+          email: user.email,
+          role: user.role,
+          qubicAddress: user.qubicAddress
+        }
+      });
+    } catch (error: any) {
+      console.error('Login email error:', error);
+      res.status(500).json({ error: 'Login failed' });
+    }
+  });
 
   // Register (fallback simples)
   simpleAuthRouter.post('/register', async (req, res) => {
