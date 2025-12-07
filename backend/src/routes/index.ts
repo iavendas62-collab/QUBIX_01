@@ -39,8 +39,15 @@ export function setupRoutes(app: Express, services: any) {
   // AUTH ROUTES (usando routes/auth.ts completo)
   // ============================================
   console.log('📝 Registering auth routes from routes/auth.ts');
-  app.use('/api/auth', authRouter);
-  console.log('✅ Auth routes registered');
+  console.log('🔍 authRouter type:', typeof authRouter);
+  console.log('🔍 authRouter stack length:', authRouter?.stack?.length || 'no stack');
+  
+  if (!authRouter) {
+    console.error('❌ authRouter is undefined! Using fallback routes only.');
+  } else {
+    app.use('/api/auth', authRouter);
+    console.log('✅ Auth routes registered from routes/auth.ts');
+  }
 
   // AUTH ROUTES SIMPLIFICADAS (fallback)
   const simpleAuthRouter = Router();
@@ -312,13 +319,23 @@ export function setupRoutes(app: Express, services: any) {
   app.use('/api/wallet', walletRouter);
 
   // ============================================
-  // DEBUG ROUTE - Simple test
+  // DEBUG ROUTES
   // ============================================
   app.get('/api/debug/test', (req, res) => {
     res.json({
       status: 'ok',
-      message: 'Auth routes are registered',
+      message: 'Server is running',
+      authRouterLoaded: !!authRouter,
       timestamp: new Date().toISOString()
+    });
+  });
+
+  // Test route to verify auth endpoints
+  app.post('/api/debug/test-register', (req, res) => {
+    res.json({
+      success: true,
+      message: 'This is a test route - if you see this, the server is working',
+      receivedBody: req.body
     });
   });
 
