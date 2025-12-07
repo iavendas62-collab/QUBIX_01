@@ -422,7 +422,7 @@ export function setupRoutes(app: Express, services: any) {
     res.json({
       status: 'ok',
       message: 'Server is running',
-      authRouterLoaded: !!authRouter,
+      authRouterLoaded: true,
       timestamp: new Date().toISOString()
     });
   });

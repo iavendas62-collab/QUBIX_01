@@ -107,12 +107,22 @@ if (process.env.NODE_ENV === 'production') {
   const path = require('path');
   const frontendPath = path.join(__dirname, '../../frontend/dist');
 
-  // Serve static files
-  app.use(express.static(frontendPath));
+  // Serve static files with proper cache headers
+  app.use(express.static(frontendPath, {
+    maxAge: '1d',
+    etag: true,
+    lastModified: true
+  }));
 
-  // Handle client-side routing - serve index.html for SPA routes
+  // Handle client-side routing - serve index.html for ALL non-API routes
   // This MUST come AFTER API routes to avoid conflicts
-  app.get(['/', '/login', '/register', '/dashboard*', '/select-profile'], (req, res) => {
+  app.get('*', (req, res) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) {
+      return res.status(404).json({ error: 'API endpoint not found' });
+    }
+    
+    // Serve index.html for all other routes (SPA)
     res.sendFile(path.join(frontendPath, 'index.html'));
   });
 
