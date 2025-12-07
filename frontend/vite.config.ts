@@ -10,9 +10,11 @@ export default defineConfig(({ mode }) => {
     // Define environment variables for the client
     define: {
       // Em desenvolvimento: proxy do Vite (/api)
-      // Em produção (Railway): URL relativa pois backend serve frontend
+      // Em produção (Railway): string vazia pois frontend/backend no mesmo domínio
       'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || (env.NODE_ENV === 'production' ? '' : '/api')),
       'import.meta.env.VITE_WS_URL': JSON.stringify(env.VITE_WS_URL || (env.NODE_ENV === 'production' ? 'wss://qubix.io/ws' : 'ws://localhost:3006')),
+      // Force production detection for Railway
+      'import.meta.env.PROD': JSON.stringify(env.NODE_ENV === 'production'),
     },
 
     // Development server configuration

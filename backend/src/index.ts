@@ -94,16 +94,16 @@ monitorDatabaseConnection().catch((error) => {
 if (process.env.NODE_ENV === 'production') {
   const path = require('path');
   const frontendPath = path.join(__dirname, '../../frontend/dist');
-  
+
+  // Serve static files
   app.use(express.static(frontendPath));
-  
-  // Handle client-side routing - serve index.html for all non-API routes
-  app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api')) {
-      res.sendFile(path.join(frontendPath, 'index.html'));
-    }
+
+  // Handle client-side routing - serve index.html for SPA routes
+  // This MUST come AFTER API routes to avoid conflicts
+  app.get(['/', '/login', '/register', '/dashboard*', '/select-profile'], (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
   });
-  
+
   logger.info({ path: frontendPath }, 'Serving frontend static files');
 }
 
