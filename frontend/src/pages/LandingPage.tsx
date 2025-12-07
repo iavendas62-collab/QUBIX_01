@@ -221,14 +221,8 @@ export default function LandingPage() {
           <div className="text-2xl font-bold text-cyan-400">QUBIX</div>
           <div className="flex items-center gap-4">
             <LanguageSelector />
-            <button 
-              onClick={() => navigate('/login')}
-              className="px-4 py-2 text-slate-300 hover:text-white transition-colors"
-            >
-              {t.login}
-            </button>
-            <button 
-              onClick={() => navigate('/register')}
+            <button
+              onClick={() => navigate('/app/dashboard')}
               className="px-6 py-2 bg-cyan-500 hover:bg-cyan-600 rounded-lg font-semibold transition-colors"
             >
               {t.register}
@@ -264,7 +258,7 @@ export default function LandingPage() {
           {/* CTA Buttons */}
           <div className="flex flex-col md:flex-row gap-6 justify-center mb-16">
             <button
-              onClick={() => navigate('/register?type=consumer')}
+              onClick={() => navigate('/app/dashboard')}
               className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl font-bold text-lg overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -374,7 +368,7 @@ export default function LandingPage() {
                 ))}
               </div>
               <button
-                onClick={() => navigate('/register?type=consumer')}
+                onClick={() => navigate('/app/dashboard')}
                 className="mt-6 w-full py-3 bg-cyan-500 hover:bg-cyan-600 rounded-lg font-semibold flex items-center justify-center gap-2"
               >
                 {t.rentGpu} <ChevronRight className="w-5 h-5" />

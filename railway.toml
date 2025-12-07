@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm ci && npm run build"
+buildCommand = "npm ci && npm run build:frontend && npm run build:backend"
 
 [deploy]
 startCommand = "chmod +x scripts/setup-railway-env.sh && ./scripts/setup-railway-env.sh && npm run start:prod"
