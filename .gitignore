@@ -221,6 +221,9 @@ frontend/src/components/__manual_tests__/
 # Root level documentation (keep only README.md)
 DEMO_CAPTIONS.srt
 DEPLOY_RAILWAY.md
+RAILWAY_DEPLOY_STATUS.md
+CONTEXTO_DEPLOY_RAILWAY.md
+CONTEXTO_*.md
 vercel.json
 Procfile
 
