@@ -66,6 +66,18 @@ const wsManager = setupWebSocket(wss, { qubicClient, jobQueue });
 // Initialize escrow service with WebSocket manager for real-time updates
 escrowService.setWebSocketManager(wsManager);
 
+// Root route for Railway health checks
+app.get('/', (req, res) => {
+  res.json({
+    message: 'QUBIX Backend API - Railway Ready',
+    status: 'online',
+    version: '1.0.0',
+    port: process.env.PORT || 'unknown',
+    environment: process.env.NODE_ENV || 'unknown',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Setup routes with wsManager
 setupRoutes(app, { qubicClient, jobQueue, wsManager });
 
