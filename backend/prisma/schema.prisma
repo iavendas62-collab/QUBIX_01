@@ -9,8 +9,8 @@ datasource db {
 
 model User {
   id            String    @id @default(uuid())
-  email         String    @unique
-  passwordHash  String
+  email         String?   @unique
+  passwordHash  String?
   qubicAddress  String    @unique
   qubicSeedEnc  String?   // Encrypted seed phrase
   username      String?
