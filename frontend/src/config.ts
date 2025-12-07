@@ -17,18 +17,16 @@ export const QUBIC_RPC_URL = QUBIC_NETWORK === 'mainnet'
   ? 'https://rpc.qubic.org'
   : 'https://testnet-rpc.qubic.org';
 
-// Helper to build API URLs (sem duplicar /api)
+// Helper to build API URLs (SIMPLIFICADO)
 export const apiUrl = (path: string) => {
-  // Remove leading slash if present
+  // Remove leading slash
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-
-  // Se API_BASE_URL já inclui /api (produção), não adicionar novamente
-  // Se API_BASE_URL é apenas domínio (desenvolvimento via proxy), adicionar /api
-  const isDevelopmentProxy = API_BASE_URL === '/api' || API_BASE_URL === '/';
-  const baseUrl = isDevelopmentProxy ? '' : API_BASE_URL;
-  const apiPrefix = isDevelopmentProxy ? '/api' : '/api';
-
-  return `${baseUrl}${apiPrefix}/${cleanPath}`;
+  
+  // Remove /api se já estiver no path
+  const pathWithoutApi = cleanPath.startsWith('api/') ? cleanPath.slice(4) : cleanPath;
+  
+  // Sempre retorna /api/path
+  return `/api/${pathWithoutApi}`;
 };
 
 // Example usage:

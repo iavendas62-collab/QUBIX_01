@@ -1,20 +1,8 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm ci && npm run build:frontend && npm run build:backend"
+buildCommand = "chmod +x build-all.sh && ./build-all.sh"
 
 [deploy]
-startCommand = "chmod +x scripts/setup-railway-env.sh && ./scripts/setup-railway-env.sh && npm run start:prod"
+startCommand = "cd backend && npm run start:prod"
 restartPolicyType = "on-failure"
 restartPolicyMaxRetries = 10
-
-[environments]
-[environments.production]
-DATABASE_URL = "${{ RAILWAY_DATABASE_URL }}"
-DIRECT_DATABASE_URL = "${{ RAILWAY_DATABASE_URL }}"
-JWT_SECRET = "${{ JWT_SECRET }}"
-QUBIC_PLATFORM_SEED = "${{ QUBIC_PLATFORM_SEED }}"
-QUBIC_PLATFORM_ADDRESS = "${{ QUBIC_PLATFORM_ADDRESS }}"
-NODE_ENV = "production"
-PORT = "${{ PORT }}"
-LOG_LEVEL = "info"
-FRONTEND_URL = "${{ RAILWAY_STATIC_URL }}"
