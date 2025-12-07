@@ -341,8 +341,9 @@ export function providerRoutes(services: any) {
         // Filter mock providers by qubicAddress if provided
         const { MOCK_PROVIDERS } = await import('../data/mockData');
         let providers = MOCK_PROVIDERS;
+        // Note: Mock providers don't have qubicAddress, so we return all for demo
         if (qubicAddress) {
-          providers = MOCK_PROVIDERS.filter(p => p.qubicAddress === qubicAddress);
+          console.log(`⚠️ Mock mode: ignoring qubicAddress filter for demo`);
         }
         
         console.log(`✅ Found ${providers.length} providers for address`);
