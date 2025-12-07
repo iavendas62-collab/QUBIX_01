@@ -29,6 +29,27 @@ export function Login() {
     setLoading(true);
 
     try {
+      // 🔓 BYPASS: Credenciais de admin hardcoded
+      if (formData.email === 'admin' && formData.password === 'admin') {
+        const mockUser = {
+          id: 'admin-001',
+          email: 'admin@qubix.io',
+          username: 'Admin',
+          qubicAddress: 'ADMINQUBICADDRESSABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMN',
+          role: 'CONSUMER',
+          balance: 10000
+        };
+
+        const mockToken = btoa(JSON.stringify(mockUser));
+
+        localStorage.setItem('token', mockToken);
+        localStorage.setItem('user', JSON.stringify(mockUser));
+        localStorage.setItem('qubicAddress', mockUser.qubicAddress);
+
+        navigate('/app/dashboard');
+        return;
+      }
+
       // ✅ URL CORRETA: Usa apiUrl helper com endpoint de email
       const response = await fetch(apiUrl('auth/login-email'), {
         method: 'POST',
@@ -125,7 +146,13 @@ export function Login() {
           </Link>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-cyan-500/30 text-center text-xs text-gray-500">
+        <div className="mt-4 p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-center">
+          <p className="text-xs text-cyan-400">
+            🔓 Demo Access: <span className="font-mono">admin / admin</span>
+          </p>
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-cyan-500/30 text-center text-xs text-gray-500">
           <p>🔒 Secured by Qubic blockchain</p>
         </div>
       </div>

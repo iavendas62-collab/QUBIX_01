@@ -36,6 +36,35 @@ export function Register() {
     e.preventDefault();
     setError('');
 
+    // 🔓 BYPASS: Registro rápido com qualquer email
+    if (formData.email && formData.password) {
+      const mockUser = {
+        id: `user-${Date.now()}`,
+        email: formData.email,
+        username: formData.name || formData.email.split('@')[0],
+        qubicAddress: `MOCK${Math.random().toString(36).substring(2, 15).toUpperCase()}QUBICADDRESS`,
+        role: formData.type,
+        balance: 1000
+      };
+
+      const mockToken = btoa(JSON.stringify(mockUser));
+      const mockSeed = Array.from({ length: 55 }, () => 
+        'abcdefghijklmnopqrstuvwxyz'[Math.floor(Math.random() * 26)]
+      ).join('');
+
+      localStorage.setItem('token', mockToken);
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      localStorage.setItem('qubicAddress', mockUser.qubicAddress);
+
+      setWalletInfo({
+        identity: mockUser.qubicAddress,
+        seed: mockSeed
+      });
+      setShowSeedModal(true);
+      setLoading(false);
+      return;
+    }
+
     // Validate
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
