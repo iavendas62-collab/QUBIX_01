@@ -9,13 +9,24 @@ export class JobQueue {
   private redis: Redis;
 
   constructor() {
-    this.redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
+    const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
+    this.redis = new Redis(redisUrl);
+    
+    // Parse Redis URL properly
+    let redisConfig: any = { host: 'localhost', port: 6379 };
+    try {
+      const url = new URL(redisUrl);
+      redisConfig = {
+        host: url.hostname,
+        port: parseInt(url.port) || 6379,
+        password: url.password || undefined
+      };
+    } catch (e) {
+      console.warn('Failed to parse REDIS_URL, using defaults');
+    }
     
     this.queue = new Queue('compute-jobs', {
-      redis: {
-        host: process.env.REDIS_URL?.split('://')[1]?.split(':')[0] || 'localhost',
-        port: parseInt(process.env.REDIS_URL?.split(':')[2] || '6379')
-      }
+      redis: redisConfig
     });
 
     this.setupProcessors();
@@ -53,6 +64,14 @@ export class JobQueue {
 
     this.queue.on('failed', (job, err) => {
       console.error(`❌ Job ${job.id} failed:`, err);
+    });
+
+    this.queue.on('error', (error) => {
+      console.error('❌ Queue error:', error.message);
+    });
+
+    this.redis.on('error', (error) => {
+      console.error('❌ Redis error:', error.message);
     });
   }
 
