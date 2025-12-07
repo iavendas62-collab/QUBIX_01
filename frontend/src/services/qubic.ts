@@ -247,3 +247,4 @@ class QubicWalletService {
 
 // Export singleton
 export const qubicWallet = new QubicWalletService();
+

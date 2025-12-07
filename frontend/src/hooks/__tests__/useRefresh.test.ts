@@ -220,3 +220,4 @@ describe('formatTimeSince', () => {
     expect(formatTimeSince(604800)).toBe('7d ago');
   });
 });
+

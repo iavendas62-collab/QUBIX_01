@@ -602,3 +602,4 @@ export function QuickProvider({ onSuccess, onError }: QuickProviderProps) {
     </Card>
   );
 }
+

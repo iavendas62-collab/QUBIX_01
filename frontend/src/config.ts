@@ -42,3 +42,4 @@ console.log('🔧 Frontend Config:', {
   QUBIC_NETWORK,
   QUBIC_RPC_URL
 });
+

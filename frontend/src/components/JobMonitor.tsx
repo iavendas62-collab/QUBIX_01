@@ -79,7 +79,7 @@ export default function JobMonitor({ jobId, onClose }: JobMonitorProps) {
   // Fetch initial job data
   const fetchJob = useCallback(async () => {
     try {
-      const res = await fetch(`/api/api/jobs/${jobId}`);
+      const res = await fetch(`/api/jobs/${jobId}`);
       if (res.ok) {
         const data = await res.json();
         setJob(data);
@@ -812,3 +812,4 @@ export default function JobMonitor({ jobId, onClose }: JobMonitorProps) {
     </div>
   );
 }
+

@@ -20,7 +20,7 @@ export default function InstanceDetails() {
 
   const fetchInstance = async () => {
     try {
-      const res = await fetch('/api/api/rentals/active');
+      const res = await fetch('/api/rentals/active');
       if (res.ok) {
         const data = await res.json();
         const found = data.find((r: any) => r.instanceId === instanceId);
@@ -32,7 +32,7 @@ export default function InstanceDetails() {
 
   const handleStop = async () => {
     try {
-      await fetch(`/api/api/rentals/${instanceId}/cancel`, { method: 'POST' });
+      await fetch(`/api/rentals/${instanceId}/cancel`, { method: 'POST' });
       toast.success('Instance stopped');
       navigate('/app/instances');
     } catch (e) {
@@ -164,3 +164,4 @@ export default function InstanceDetails() {
     </div>
   );
 }
+

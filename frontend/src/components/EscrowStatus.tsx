@@ -344,3 +344,4 @@ export const EscrowStatus: React.FC<EscrowStatusProps> = ({ jobId, onStatusChang
 };
 
 export default EscrowStatus;
+

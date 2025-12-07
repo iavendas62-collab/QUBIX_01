@@ -50,7 +50,7 @@ export default function Jobs() {
     }
     
     try {
-      const res = await fetch(`/api/api/jobs/user/${qubicAddress}`);
+      const res = await fetch(`/api/jobs/user/${qubicAddress}`);
       if (res.ok) {
         const data = await res.json();
         setJobs(data);
@@ -296,3 +296,4 @@ export default function Jobs() {
     </div>
   );
 }
+

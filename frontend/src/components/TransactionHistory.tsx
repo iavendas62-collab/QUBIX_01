@@ -519,3 +519,4 @@ export default function TransactionHistory({ qubicAddress, onTransactionClick }:
     </div>
   );
 }
+

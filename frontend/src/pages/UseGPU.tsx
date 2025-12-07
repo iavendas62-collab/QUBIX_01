@@ -224,7 +224,7 @@ export default function UseGPU({ onBack, onSelectGPU }: UseGPUProps) {
   const fetchGPUs = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/api/gpus?status=available');
+      const response = await fetch('/api/gpus?status=available');
       const data = await response.json();
       
       const useCase = USE_CASES.find(u => u.id === selectedUseCase);
@@ -587,3 +587,4 @@ export default function UseGPU({ onBack, onSelectGPU }: UseGPUProps) {
     </div>
   );
 }
+

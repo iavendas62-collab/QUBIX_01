@@ -1,50 +1,66 @@
-# QUBICX COMPUTE HUB 🚀
+# 🚀 QUBIX - Decentralized AI Compute Marketplace
 
-**The first decentralized AI compute marketplace native to Qubic**
+**The first decentralized AI compute marketplace native to Qubic blockchain**
 
-## 🎯 Overview
+[![Live Demo](https://img.shields.io/badge/demo-live-success)](https://web-production-83ddd.up.railway.app)
+[![Qubic Hackathon](https://img.shields.io/badge/Qubic-Hackathon%202024-blue)](https://qubic.org)
 
-QubicX connects idle computational power from the Qubic network with developers and enterprises who need to train AI models, leveraging the "Outsourced Computations" feature from the official 2025 roadmap.
+## 🎯 What is QUBIX?
 
-## 🔥 Key Features
+QUBIX connects GPU providers with AI developers in a decentralized marketplace powered by Qubic blockchain. Anyone can:
+- **Rent their GPU** and earn QUBIC tokens
+- **Run AI models** using distributed computing power
+- **Pay only for what you use** with transparent pricing
 
-- **Compute Marketplace**: Miners rent out idle computational power
-- **AI Job Queue**: Developers submit training/inference jobs
-- **Model Hub**: Share and monetize trained AI models
-- **Cross-Chain Bridges**: Integration with Ethereum/Solana
-- **Developer Tools**: SDK, CLI, and no-code templates
+## ✨ Key Features
 
-## 🏆 Hackathon Tracks
+### For Consumers (AI Developers)
+- 🤖 **Submit AI Jobs** - Train models, run inference
+- 💰 **Fair Pricing** - Pay only for actual GPU time used
+- 📊 **Real-time Monitoring** - Track job progress live
+- 🔒 **Secure Escrow** - Payments held until job completion
 
-- ✅ **Nostromo Track**: Integração completa com Qubic Core
-- ✅ **EasyConnect Track**: Templates visuais + no-code tools
+### For Providers (GPU Owners)
+- 💻 **Share Your GPU** - Monetize idle computing power
+- 💵 **Earn QUBIC** - Get paid automatically for completed jobs
+- 📈 **Track Earnings** - Real-time dashboard with metrics
+- ⚡ **Auto-matching** - Smart algorithm finds best jobs for your GPU
 
-## 🚀 Quick Start
+### Blockchain Integration
+- 🔗 **Qubic Native** - Built on Qubic blockchain
+- 🔐 **Wallet Integration** - Automatic wallet creation
+- 💸 **Instant Payments** - Fast transactions with low fees
+- 🛡️ **Smart Escrow** - Trustless payment system
 
-```bash
-# Backend
-cd backend
-npm install
-npm run dev
+## 🎮 Try it Now!
 
-# Frontend
-cd frontend
-npm install
-npm start
+**Live Demo:** https://web-production-83ddd.up.railway.app
 
-# CLI
-cd cli
-npm install
-npm link
-qubix compute submit --model gpt2 --dataset ./data
+### Quick Test (No Setup Required)
+1. Visit the demo URL
+2. Use any email/password to login (demo mode)
+3. Explore the marketplace and submit a test job!
+
+**Demo Credentials:**
+- Email: `demo@qubix.io`
+- Password: `demo123`
+
+## 🏗️ Architecture
+
 ```
-
-## 📊 Business Model
-
-- 3% fee em transactions (QUBIC burns)
-- Premium tiers para enterprises
-- Model marketplace royalties (2%)
-- Partnership revenue shares
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│   Frontend  │────▶│   Backend    │────▶│   Qubic     │
+│  React/TS   │     │  Node/Express│     │ Blockchain  │
+└─────────────┘     └──────────────┘     └─────────────┘
+       │                    │                     │
+       │                    ▼                     │
+       │            ┌──────────────┐              │
+       │            │  PostgreSQL  │              │
+       │            │    Redis     │              │
+       │            └──────────────┘              │
+       │                                          │
+       └──────────────WebSocket───────────────────┘
+```
 
 ## 🛠️ Tech Stack
 

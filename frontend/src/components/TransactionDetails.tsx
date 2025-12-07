@@ -284,3 +284,4 @@ export default function TransactionDetails({ transaction, onClose }: Transaction
     </div>
   );
 }
+

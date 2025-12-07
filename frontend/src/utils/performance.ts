@@ -229,3 +229,4 @@ export function clearPerformance() {
   performance.clearMarks();
   performance.clearMeasures();
 }
+

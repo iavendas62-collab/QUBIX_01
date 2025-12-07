@@ -38,3 +38,4 @@ const props: QuickProviderProps = {
 export { QuickProvider, gpuInfo, cpuInfo, ramInfo, props };
 
 console.log('✅ QuickProvider component imports successfully');
+

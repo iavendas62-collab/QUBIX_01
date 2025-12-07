@@ -361,3 +361,4 @@ export function getTransition(transition: Transition): Transition {
   }
   return transition;
 }
+

@@ -79,7 +79,7 @@ export default function Marketplace() {
       try {
         res = await fetch('/api/gpus');
       } catch {
-        res = await fetch('/api/api/gpus');
+        res = await fetch('/api/gpus');
       }
       
       if (res.ok) {
@@ -698,3 +698,4 @@ export default function Marketplace() {
     </div>
   );
 }
+

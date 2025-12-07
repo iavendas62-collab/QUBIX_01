@@ -154,3 +154,4 @@ export function useJobProgress(jobId: string | null, onProgress: (data: any) => 
 
 // Alias for useJobProgress for semantic clarity
 export const useJobUpdates = useJobProgress;
+

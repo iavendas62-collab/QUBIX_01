@@ -228,7 +228,7 @@ export default function ProviderMonitor({ onBack }: ProviderMonitorProps) {
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        const response = await fetch('/api/api/providers/realtime');
+        const response = await fetch('/api/providers/realtime');
         const data = await response.json();
         
         // Find local provider (the one with specs)
@@ -470,3 +470,4 @@ export default function ProviderMonitor({ onBack }: ProviderMonitorProps) {
     </div>
   );
 }
+

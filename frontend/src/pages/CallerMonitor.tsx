@@ -139,7 +139,7 @@ export default function CallerMonitor({ onBack }: CallerMonitorProps) {
   useEffect(() => {
     const fetchRentals = async () => {
       try {
-        const response = await fetch('/api/api/rentals/active');
+        const response = await fetch('/api/rentals/active');
         const data = await response.json();
         const withMetrics = data.map((r: RentalInstance) => ({ ...r, metrics: { gpu_percent: Math.floor(Math.random() * 60) + 20, gpu_temp: Math.floor(Math.random() * 20) + 50, gpu_mem_used_mb: Math.floor(Math.random() * 8000) + 2000, gpu_mem_total_mb: 24000 } }));
         setRentals(withMetrics);
@@ -155,7 +155,7 @@ export default function CallerMonitor({ onBack }: CallerMonitorProps) {
 
   const formatTime = (s: number) => `${Math.floor(s/3600).toString().padStart(2,'0')}:${Math.floor((s%3600)/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`;
   const getTimeRemaining = (e: string) => { const r = new Date(e).getTime() - Date.now(); if (r <= 0) return t.expired; return `${Math.floor(r/3600000)}h ${Math.floor((r%3600000)/60000)}m ${t.remaining}`; };
-  const handleCancel = async (id: string) => { try { const r = await fetch(`/api/api/rentals/${id}/cancel`, { method: 'POST' }); const d = await r.json(); if (d.success) { toast.success(`${t.cancelled} ${d.refundAmount.toFixed(2)} QUBIC`); setRentals(p => p.filter(x => x.instanceId !== id)); } } catch { toast.error(t.error); } };
+  const handleCancel = async (id: string) => { try { const r = await fetch(`/api/rentals/${id}/cancel`, { method: 'POST' }); const d = await r.json(); if (d.success) { toast.success(`${t.cancelled} ${d.refundAmount.toFixed(2)} QUBIC`); setRentals(p => p.filter(x => x.instanceId !== id)); } } catch { toast.error(t.error); } };
 
   if (loading) return <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center"><div className="text-center"><div className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" /><p className="text-slate-400">{t.loading}</p></div></div>;
 
@@ -188,3 +188,4 @@ export default function CallerMonitor({ onBack }: CallerMonitorProps) {
     </div>
   );
 }
+

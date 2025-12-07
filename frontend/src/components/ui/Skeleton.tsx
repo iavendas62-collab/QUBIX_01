@@ -180,3 +180,4 @@ export function SkeletonPage() {
     </div>
   );
 }
+

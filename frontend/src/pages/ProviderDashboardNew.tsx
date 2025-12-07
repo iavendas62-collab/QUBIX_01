@@ -207,7 +207,7 @@ export default function ProviderDashboardNew() {
   const fetchData = async () => {
     try {
       // Fetch my providers (real data from backend)
-      const response = await fetch('/api/api/providers/my');
+      const response = await fetch('/api/providers/my');
       if (response.ok) {
         const data = await response.json();
         setMyGpus(data);
@@ -238,7 +238,7 @@ export default function ProviderDashboardNew() {
 
   const fetchMetricsHistory = async (workerId: string) => {
     try {
-      const response = await fetch(`/api/api/providers/${workerId}/metrics/history?limit=30`);
+      const response = await fetch(`/api/providers/${workerId}/metrics/history?limit=30`);
       if (response.ok) {
         const data = await response.json();
         // Format timestamps for display
@@ -773,3 +773,4 @@ export default function ProviderDashboardNew() {
     </div>
   );
 }
+

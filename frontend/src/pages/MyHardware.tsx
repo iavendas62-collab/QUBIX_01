@@ -109,7 +109,7 @@ export default function MyHardware({ onBack, onAddHardware }: MyHardwareProps) {
   const fetchHardware = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/api/providers/realtime');
+      const response = await fetch('/api/providers/realtime');
       const data = await response.json();
       
       // Transform data to our format
@@ -143,7 +143,7 @@ export default function MyHardware({ onBack, onAddHardware }: MyHardwareProps) {
     if (!confirm(t.confirmRemove)) return;
     
     try {
-      await fetch(`/api/api/providers/${id}`, {
+      await fetch(`/api/providers/${id}`, {
         method: 'DELETE'
       });
       setHardware(prev => prev.filter(h => h.id !== id));
@@ -155,7 +155,7 @@ export default function MyHardware({ onBack, onAddHardware }: MyHardwareProps) {
 
   const handleToggle = async (id: string, currentStatus: boolean) => {
     try {
-      await fetch(`/api/api/providers/${id}/toggle`, {
+      await fetch(`/api/providers/${id}/toggle`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ online: !currentStatus })
@@ -325,3 +325,4 @@ export default function MyHardware({ onBack, onAddHardware }: MyHardwareProps) {
     </div>
   );
 }
+

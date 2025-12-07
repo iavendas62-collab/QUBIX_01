@@ -226,7 +226,7 @@ export default function AddHardware() {
 
     try {
       // Register hardware in backend
-      await fetch('/api/api/providers/register', {
+      await fetch('/api/providers/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -360,3 +360,4 @@ export default function AddHardware() {
     </div>
   );
 }
+

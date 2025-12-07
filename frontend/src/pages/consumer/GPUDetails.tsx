@@ -17,7 +17,7 @@ export default function GPUDetails() {
 
   const fetchGpu = async () => {
     try {
-      const res = await fetch('/api/api/gpus');
+      const res = await fetch('/api/gpus');
       if (res.ok) {
         const data = await res.json();
         const found = data.find((g: any) => g.id === gpuId);
@@ -118,3 +118,4 @@ export default function GPUDetails() {
     </div>
   );
 }
+

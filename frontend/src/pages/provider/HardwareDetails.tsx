@@ -22,8 +22,8 @@ export default function HardwareDetails() {
   const fetchData = async () => {
     try {
       const [gpuRes, historyRes] = await Promise.all([
-        fetch(`/api/api/providers/${machineId}/metrics`),
-        fetch(`/api/api/providers/${machineId}/metrics/history?limit=30`)
+        fetch(`/api/providers/${machineId}/metrics`),
+        fetch(`/api/providers/${machineId}/metrics/history?limit=30`)
       ]);
       
       if (gpuRes.ok) setGpu(await gpuRes.json());
@@ -153,3 +153,4 @@ export default function HardwareDetails() {
     </div>
   );
 }
+

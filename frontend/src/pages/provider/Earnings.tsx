@@ -40,7 +40,7 @@ export default function Earnings() {
 
     try {
       // Fetch earnings summary
-      const res = await fetch(`/api/api/providers/${providerId}/earnings`);
+      const res = await fetch(`/api/providers/${providerId}/earnings`);
       if (res.ok) {
         const data = await res.json();
         setEarnings({
@@ -61,7 +61,7 @@ export default function Earnings() {
       }
 
       // Fetch transaction history
-      const historyRes = await fetch(`/api/api/transactions/${providerId}`);
+      const historyRes = await fetch(`/api/transactions/${providerId}`);
       if (historyRes.ok) {
         const historyData = await historyRes.json();
         setHistory(historyData.slice(0, 10).map((t: any) => ({
@@ -233,3 +233,4 @@ export default function Earnings() {
     </div>
   );
 }
+

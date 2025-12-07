@@ -396,8 +396,8 @@ function Dashboard() {
     const fetchData = async () => {
       try {
         const [statsRes, jobsRes] = await Promise.all([
-          fetch('/api/api/stats'),
-          fetch('/api/api/jobs/user/demo_user')
+          fetch('/api/stats'),
+          fetch('/api/jobs/user/demo_user')
         ]);
         const statsData = await statsRes.json();
         const jobsData = await jobsRes.json();
@@ -1057,7 +1057,7 @@ function GPUInstancesPage() {
       if (filters.location !== 'any') params.append('location', filters.location);
       if (filters.status === 'available') params.append('status', 'available');
       
-      const response = await fetch(`/api/api/gpus?${params}`);
+      const response = await fetch(`/api/gpus?${params}`);
       const data = await response.json();
       
       // Sort GPUs
@@ -2601,3 +2601,4 @@ export default function QubixApp() {
     </div>
   );
 }
+

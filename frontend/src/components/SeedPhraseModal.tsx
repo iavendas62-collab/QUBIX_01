@@ -153,3 +153,4 @@ export const SeedPhraseModal: React.FC<SeedPhraseModalProps> = ({ seed, onConfir
 };
 
 export default SeedPhraseModal;
+

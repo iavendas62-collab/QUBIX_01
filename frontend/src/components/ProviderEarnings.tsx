@@ -719,3 +719,4 @@ export default function ProviderEarnings({ providerId, qubicAddress }: ProviderE
     </div>
   );
 }
+

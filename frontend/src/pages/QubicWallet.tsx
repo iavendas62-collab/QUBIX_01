@@ -842,3 +842,4 @@ function TransactionHistory({ transactions }: { transactions: Transaction[] }) {
     </div>
   );
 }
+
