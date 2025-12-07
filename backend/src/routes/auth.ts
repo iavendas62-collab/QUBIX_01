@@ -31,8 +31,8 @@ router.post('/register-email', async (req: Request, res: Response) => {
   try {
     const { email, password, username, role } = req.body;
 
-    // Validate email (RFC 5322 simplified)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Validate email (strict: no consecutive dots, no spaces, requires @ and TLD)
+    const emailRegex = /^(?!.*\.\.)[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {
       return res.status(400).json({
         error: 'Valid email is required'
@@ -82,6 +82,7 @@ router.post('/register-email', async (req: Request, res: Response) => {
     const user = await prisma.user.create({
       data: {
         email,
+        passwordHash,
         qubicAddress,
         qubicSeedEnc: encryptedSeed,
         username: username || null,
@@ -149,17 +150,15 @@ router.post('/login-email', authLimiter.middleware(), async (req: Request, res: 
       });
     }
 
-    // Verify password - user must have qubicSeedEnc which contains encrypted data
-    if (!user.qubicSeedEnc) {
+    // Verify password using bcrypt
+    if (!user.passwordHash) {
       return res.status(401).json({
         error: 'Invalid email or password'
       });
     }
-    
-    // Try to decrypt seed with provided password - if it fails, password is wrong
-    try {
-      decryptSeed(user.qubicSeedEnc, password);
-    } catch (error) {
+
+    const isValidPassword = await bcrypt.compare(password, user.passwordHash);
+    if (!isValidPassword) {
       return res.status(401).json({
         error: 'Invalid email or password'
       });
