@@ -50,8 +50,8 @@ export function Register() {
     setLoading(true);
 
     try {
-      // ✅ URL CORRETA: Usa apiUrl helper que previne duplicação
-      const response = await fetch(apiUrl('auth/register'), {
+      // ✅ URL CORRETA: Usa apiUrl helper com endpoint de email
+      const response = await fetch(apiUrl('auth/register-email'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -59,8 +59,8 @@ export function Register() {
         body: JSON.stringify({
           email: formData.email,
           password: formData.password,
-          name: formData.name,
-          type: formData.type
+          username: formData.name,
+          role: formData.type
         })
       });
 

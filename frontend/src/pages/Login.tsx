@@ -29,8 +29,8 @@ export function Login() {
     setLoading(true);
 
     try {
-      // ✅ URL CORRETA: Usa apiUrl helper
-      const response = await fetch(apiUrl('auth/login'), {
+      // ✅ URL CORRETA: Usa apiUrl helper com endpoint de email
+      const response = await fetch(apiUrl('auth/login-email'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

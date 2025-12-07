@@ -236,6 +236,14 @@ docker-compose.prod.yml
 Dockerfile
 Dockerfile.prod
 
+# Ignorar TODOS os arquivos .md exceto README.md principal
+*.md
+!README.md
+!docs/**/*.md
+!contracts/README.md
+!worker/README.md
+!sdk/README.md
+
 # Keep only main README and essential docs
 # README.md stays
 # package.json stays
