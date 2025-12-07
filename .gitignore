@@ -178,5 +178,59 @@ UX_*.md
 detect-gpu.py
 register-my-gpu.py
 
+# Kiro specs and IDE files
+.kiro/specs/
+
+# Backend temporary files
+backend/.env.supabase
+backend/DATABASE_SETUP.md
+backend/DATABASE_SETUP_COMPLETE.md
+backend/GPU_MATCHING_FLOW.md
+backend/GPU_MATCHING_IMPLEMENTATION.md
+backend/INDICES_COMPARISON.md
+backend/README_DATABASE.md
+backend/README_QUBIC.md
+backend/WALLET_INTEGRATION.md
+backend/add-missing-tables.sql
+backend/check-supabase-schema.js
+backend/create-qubix-tables-safe.js
+backend/gpu-detector.py
+backend/install-gpu-detector.bat
+backend/mock-server.js
+backend/requirements-gpu.txt
+backend/run-gpu-detector.bat
+backend/seed-database.js
+backend/setup-database.bat
+backend/setup-database.sh
+backend/setup-qubix-tables.js
+backend/setup-supabase-complete.js
+backend/supabase-setup.sql
+backend/sync-missing-columns-and-tables.sql
+backend/validate-env.js
+backend/verify-schema-sync.js
+backend/EEMHHBHCOAIAFALOICNMMDNGJIAOLGCGFKIBMBDCBDKNGHLNNABCJLIKEEKDGBEFLFPHGO/
+
+# Frontend temporary files
+frontend/ANIMATION_QUICK_START.md
+frontend/CROSS_BROWSER_TEST.md
+frontend/src/components/ProviderEarnings.README.md
+frontend/src/components/SmartMatcher.README.md
+frontend/src/components/TransactionHistory.README.md
+frontend/src/components/__manual_tests__/
+
+# Root level documentation (keep only README.md)
+DEMO_CAPTIONS.srt
+DEPLOY_RAILWAY.md
+vercel.json
+Procfile
+
+# Docker files (if using Railway, not needed)
+docker-compose.yml
+docker-compose.prod.yml
+Dockerfile
+Dockerfile.prod
+
 # Keep only main README and essential docs
 # README.md stays
+# package.json stays
+# railway.json stays

@@ -1,7 +1,0 @@
-# GPU Detector Dependencies
-psutil>=5.9.0
-requests>=2.28.0
-GPUtil>=1.4.0
-
-# Optional: PyTorch for CUDA detection (heavy dependency)
-# torch>=2.0.0
