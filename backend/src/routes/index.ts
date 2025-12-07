@@ -12,6 +12,7 @@ import { statsRoutes } from './stats';
 import { transactionRoutes } from './transactions';
 import { earningsRoutes } from './earnings';
 import qubicRoutes from './qubic'; // Rotas Qubic que criamos
+import authRouter from './auth'; // Rotas de autenticação completas
 
 const prisma = new PrismaClient();
 
@@ -33,12 +34,15 @@ export function setupRoutes(app: Express, services: any) {
   });
 
   // ============================================
-  // AUTH ROUTES
+  // AUTH ROUTES (usando routes/auth.ts completo)
   // ============================================
-  const authRouter = Router();
+  app.use('/api/auth', authRouter);
 
-  // Register
-  authRouter.post('/register', async (req, res) => {
+  // AUTH ROUTES SIMPLIFICADAS (fallback)
+  const simpleAuthRouter = Router();
+
+  // Register (fallback simples)
+  simpleAuthRouter.post('/register', async (req, res) => {
     try {
       const { name, email, password, type, username, role } = req.body;
 
@@ -97,8 +101,8 @@ export function setupRoutes(app: Express, services: any) {
     }
   });
 
-  // Login
-  authRouter.post('/login', async (req, res) => {
+  // Login (fallback simples)
+  simpleAuthRouter.post('/login', async (req, res) => {
     try {
       const { email, password } = req.body;
 
@@ -141,8 +145,8 @@ export function setupRoutes(app: Express, services: any) {
     }
   });
 
-  // Get current user
-  authRouter.get('/me', async (req, res) => {
+  // Get current user (fallback simples)
+  simpleAuthRouter.get('/me', async (req, res) => {
     try {
       const authHeader = req.headers.authorization;
 
@@ -174,7 +178,7 @@ export function setupRoutes(app: Express, services: any) {
     }
   });
 
-  app.use('/api/auth', authRouter);
+  app.use('/api/auth-simple', simpleAuthRouter);
 
   // ============================================
   // QUBIC BLOCKCHAIN ROUTES (AUTO FALLBACK SYSTEM)
