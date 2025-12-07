@@ -41,15 +41,13 @@ export function setupRoutes(app: Express, services: any) {
   console.log('📝 Registering auth routes from routes/auth.ts');
   console.log('🔍 authRouter type:', typeof authRouter);
   console.log('🔍 authRouter stack length:', authRouter?.stack?.length || 'no stack');
-  
+
   if (!authRouter) {
     console.error('❌ authRouter is undefined! Using fallback routes only.');
-    app.use('/api/auth', simpleAuthRouter);
+    // Register fallback auth routes later after simpleAuthRouter is created
   } else {
     app.use('/api/auth', authRouter);
     console.log('✅ Auth routes registered from routes/auth.ts');
-    // Also register simple auth as fallback
-    app.use('/api/auth-fallback', simpleAuthRouter);
   }
 
   // AUTH ROUTES SIMPLIFICADAS (fallback)
@@ -297,6 +295,15 @@ export function setupRoutes(app: Express, services: any) {
   });
 
   app.use('/api/auth-simple', simpleAuthRouter);
+
+  // Register fallback auth routes if main authRouter failed
+  if (!authRouter) {
+    app.use('/api/auth', simpleAuthRouter);
+    console.log('✅ Fallback auth routes registered');
+  } else {
+    // Register simple auth as additional fallback
+    app.use('/api/auth-fallback', simpleAuthRouter);
+  }
 
   // ============================================
   // QUBIC BLOCKCHAIN ROUTES (AUTO FALLBACK SYSTEM)

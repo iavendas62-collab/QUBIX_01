@@ -9,8 +9,10 @@ export default defineConfig(({ mode }) => {
     
     // Define environment variables for the client
     define: {
-      'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || '/api'),
-      'import.meta.env.VITE_WS_URL': JSON.stringify(env.VITE_WS_URL || 'ws://localhost:3006'),
+      // Em desenvolvimento: proxy do Vite (/api)
+      // Em produção (Railway): URL relativa pois backend serve frontend
+      'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || (env.NODE_ENV === 'production' ? '' : '/api')),
+      'import.meta.env.VITE_WS_URL': JSON.stringify(env.VITE_WS_URL || (env.NODE_ENV === 'production' ? 'wss://qubix.io/ws' : 'ws://localhost:3006')),
     },
 
     // Development server configuration

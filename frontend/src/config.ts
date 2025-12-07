@@ -5,8 +5,8 @@
 
 // Backend API Base URL
 // Em desenvolvimento: usa proxy do Vite (/api é proxy para localhost:3006)
-// Em produção: usa URL completa do backend
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3006';
+// Em produção (Railway): usa URL relativa /api pois backend serve frontend
+export const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3006');
 
 // WebSocket URL
 export const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3006';
