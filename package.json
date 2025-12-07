@@ -1,0 +1,36 @@
+{
+  "name": "qubix-compute-hub",
+  "version": "1.0.0",
+  "description": "First decentralized AI compute marketplace native to Qubic",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend",
+    "sdk",
+    "cli"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:backend && npm run install:frontend",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm start",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "keywords": [
+    "qubic",
+    "ai",
+    "compute",
+    "marketplace",
+    "web3"
+  ],
+  "author": "Qubix Team",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

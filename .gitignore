@@ -1,0 +1,182 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+build/
+dist/
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# SSL Certificates (NEVER commit these!)
+ssl/
+*.pem
+*.key
+*.crt
+*.csr
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Database
+*.db
+*.sqlite
+prisma/migrations/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Docker
+.dockerignore
+
+# Documentation/Session files (temporary)
+*_SESSAO.md
+*_COMPLETA.md
+*_COMPLETO.md
+*_CORRIGIR.md
+*_AGORA.md
+*_ATUAL.md
+*_FINAL.md
+*_QUICKSTART.md
+*_GUIDE.md
+*_SUMMARY.md
+*_STATUS.md
+*_CHECKLIST.md
+*_TRACKER.md
+*_PLAN.md
+*_ROADMAP.md
+*_DIAGRAM.md
+*_SCRIPT.md
+*_REFERENCE.md
+*_REPORT.md
+ACESSE_AQUI.txt
+LEIA_ISTO.txt
+QUBIC_CREDENTIALS.txt
+provider-info.json
+*.lnk
+
+# Test scripts (keep only essential ones)
+test-*.ps1
+test-*.bat
+test-*.sh
+test-*.js
+setup-*.ps1
+start-*.ps1
+start-*.bat
+START*.bat
+run-*.sh
+
+# Temporary markdown docs
+APLICACOES_RODANDO.md
+ARQUITETURA_*.md
+ARQUIVOS_*.md
+AUTH_*.md
+BUGS_*.md
+BUG_*.md
+BYPASS_*.md
+CHECKPOINT_*.md
+COMO_*.md
+CONSUMER_*.md
+CONTEXTO_*.md
+CORRIGIR_*.md
+DAY_*.md
+DEMO_*.md
+DEPLOYMENT.md
+DEPLOY_*.md
+DESIGN_*.md
+ESCROW_*.md
+ESTRATEGIA_*.md
+EXECUTION_*.md
+FASE_*.md
+FINAL_*.md
+FLUXO_*.md
+FRONTEND_*.md
+GUIA_*.md
+HACKATHON_*.md
+IMPLEMENTATION_*.md
+IMPROVEMENTS_*.md
+INICIAR_*.md
+INSTALACAO_*.md
+INSTALLER_*.md
+INTEGRACAO_*.md
+JOB*.md
+JUDGING_*.md
+MARKETPLACE_*.md
+MASTER_PLAN.md
+METRICS_*.md
+MODELO_*.md
+NOVO_*.md
+PASSO_*.md
+PERFORMANCE_*.md
+PLANO_*.md
+PORTAS_*.md
+PRODUCTION_*.md
+PROGRESSO_*.md
+PROGRESS_*.md
+PROJECT_SUMMARY.md
+PROJETO_*.md
+PROVIDER_*.md
+QUBIC_*.md
+QUICK*.md
+README_AUTH_MVP.md
+README_DEPLOY.md
+README_HACKATHON.md
+RESUMO_*.md
+ROTAS_*.md
+ROTEIRO_*.md
+RUN_*.md
+SECURITY_GUIDE.md
+SETUP_*.md
+SIDEBAR_*.md
+SISTEMA_*.md
+SOLUCAO_*.md
+START_*.md
+STATUS_*.md
+SUPABASE_*.md
+TESTAR_*.md
+TESTES_*.md
+TESTE_*.md
+TODAS_*.md
+TROUBLESHOOTING_*.md
+UX_*.md
+
+# Python scripts (if not needed for production)
+detect-gpu.py
+register-my-gpu.py
+
+# Keep only main README and essential docs
+# README.md stays

@@ -1,0 +1,257 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["qubix"]
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  qubicAddress  String    @unique
+  qubicSeedEnc  String?   // Encrypted seed phrase
+  username      String?
+  role          Role      @default(CONSUMER)
+  balance       Float     @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  providers     Provider[]
+  jobs          Job[]
+  transactions  Transaction[]
+
+
+}
+
+enum Role {
+  CONSUMER
+  PROVIDER
+  BOTH
+
+
+}
+
+model Provider {
+  id              String    @id @default(uuid())
+  workerId        String    @unique
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  
+  qubicAddress    String
+  name            String?
+  type            ProviderType
+  
+  // Hardware specs
+  gpuModel        String
+  gpuVram         Float
+  cpuModel        String
+  cpuCores        Int
+  ramTotal        Float
+  
+  // Location and pricing
+  location        String?
+  pricePerHour    Float
+  
+  // Status
+  isOnline        Boolean   @default(false)
+  isAvailable     Boolean   @default(true)
+  currentJobId    String?
+  
+  // Metrics
+  totalEarnings   Float     @default(0)
+  totalJobs       Int       @default(0)
+  uptime          Int       @default(0)
+  
+  registeredAt    DateTime  @default(now())
+  lastHeartbeat   DateTime?
+  
+  jobs            Job[]
+  metrics         ProviderMetric[]
+
+
+}
+
+enum ProviderType {
+  BROWSER
+  NATIVE
+
+
+}
+
+model Job {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  providerId      String?
+  provider        Provider? @relation(fields: [providerId], references: [id])
+  
+  // Job Details
+  jobType         String    @default("custom_script")
+  framework       String?
+  fileName        String    @default("unknown")
+  fileUrl         String    @default("")
+  modelType       String
+  computeNeeded   Float
+  inputData       Json
+  
+  // Requirements
+  requiredVRAM    Float     @default(0)
+  requiredCompute Float     @default(0)
+  requiredRAM     Float     @default(0)
+  
+  // Configuration
+  advancedConfig  Json?
+  
+  // Status
+  status          JobStatus @default(PENDING)
+  progress        Int       @default(0)
+  currentOperation String?
+  
+  // Results
+  result          Json?
+  error           String?
+  
+  // Costs
+  estimatedCost   Float
+  estimatedDuration Int?
+  actualCost      Float?
+  actualDuration  Int?
+  
+  // Blockchain
+  escrowTxHash    String?
+  releaseTxHash   String?
+  
+  // Timestamps
+  createdAt       DateTime  @default(now())
+  startedAt       DateTime?
+  completedAt     DateTime?
+  
+  transaction     Transaction?
+  logs            JobLog[]
+  metrics         JobMetric[]
+
+
+}
+
+enum JobStatus {
+  PENDING
+  ASSIGNED
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+
+
+}
+
+model Transaction {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  jobId           String?   @unique
+  job             Job?      @relation(fields: [jobId], references: [id])
+  
+  type            TransactionType
+  amount          Float
+  status          TransactionStatus
+  
+  qubicTxHash     String?   @unique
+  confirmations   Int       @default(0)
+  
+  createdAt       DateTime  @default(now())
+  completedAt     DateTime?
+  
+  @@index([userId, createdAt])
+  @@index([qubicTxHash])
+
+}
+
+enum TransactionType {
+  PAYMENT
+  EARNING
+  REFUND
+  ESCROW_LOCK
+  ESCROW_RELEASE
+
+
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+
+
+}
+
+model ProviderMetric {
+  id              String    @id @default(uuid())
+  providerId      String
+  provider        Provider  @relation(fields: [providerId], references: [id])
+  
+  cpuPercent      Float
+  ramPercent      Float
+  gpuPercent      Float?
+  gpuTemp         Float?
+  gpuMemUsed      Float?
+  
+  timestamp       DateTime  @default(now())
+  
+  @@index([providerId, timestamp])
+
+}
+
+model JobLog {
+  id              String    @id @default(uuid())
+  jobId           String
+  job             Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  
+  timestamp       DateTime  @default(now())
+  level           String    // info, warning, error
+  message         String
+  
+  @@index([jobId, timestamp])
+
+}
+
+model JobMetric {
+  id              String    @id @default(uuid())
+  jobId           String
+  job             Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  
+  timestamp       DateTime  @default(now())
+  gpuUtilization  Float?
+  gpuMemoryUsed   Float?
+  gpuMemoryTotal  Float?
+  gpuTemperature  Float?
+  powerUsage      Float?
+  
+  @@index([jobId, timestamp])
+
+}
+
+model Benchmark {
+  id              String    @id @default(uuid())
+  jobType         String
+  gpuModel        String
+  baseTimeSeconds Int
+  
+  // Optional parameters for benchmark
+  epochs          Int?
+  resolution      Int?
+  datasetSize     Int?
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@unique([jobType, gpuModel])
+  @@index([jobType])
+  @@index([gpuModel])
+
+}
