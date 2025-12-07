@@ -5,8 +5,6 @@ import { ErrorBoundary, Toaster, Skeleton } from './components/ui';
 
 // Eagerly loaded - critical for initial render
 import LandingPage from './pages/LandingPage';
-import { Login } from './pages/Login';
-import { Register } from './pages/Register';
 
 // Lazy loaded - code splitting for better performance
 const QuickProviderDemo = lazy(() => import('./pages/QuickProviderDemo'));
@@ -67,12 +65,8 @@ const PageLoader = () => (
 );
 
 function App() {
-  const isAuthenticated = () => !!localStorage.getItem('token');
-
+  // Para hackathon: sempre autenticado, sem login/registro
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-    if (!isAuthenticated()) {
-      return <Navigate to="/signin" replace />;
-    }
     return <>{children}</>;
   };
 
@@ -91,11 +85,7 @@ function App() {
           <Suspense fallback={<PageLoader />}>
             <Routes>
             {/* ========== PUBLIC ROUTES ========== */}
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/signin" element={<Login />} />
-            <Route path="/signup" element={<Register />} />
-            <Route path="/login" element={<Navigate to="/signin" replace />} />
-            <Route path="/register" element={<Navigate to="/signup" replace />} />
+            <Route path="/" element={<Navigate to="/app/dashboard" replace />} />
             <Route path="/share-gpu" element={<QuickProviderDemo />} />
             <Route path="/job-uploader-demo" element={<JobUploaderDemo />} />
             <Route path="/job-wizard-demo" element={<JobWizardDemo />} />
@@ -103,10 +93,8 @@ function App() {
             <Route path="/provider-earnings-demo" element={<ProviderEarningsDemo />} />
             <Route path="/transaction-history-demo" element={<TransactionHistoryDemo />} />
 
-          {/* ========== AUTH ROUTES ========== */}
-          <Route path="/onboarding" element={
-            <ProtectedRoute><ProfileSelector /></ProtectedRoute>
-          } />
+          {/* ========== DEMO ROUTES ========== */}
+          <Route path="/onboarding" element={<ProfileSelector />} />
 
           {/* ========== APP ROUTES (with sidebar) ========== */}
           <Route path="/app" element={
