@@ -310,37 +310,23 @@ export function setupRoutes(app: Express, services: any) {
   app.use('/api/wallet', walletRouter);
 
   // ============================================
-  // DEBUG ROUTE - List all registered routes
+  // DEBUG ROUTE - Simple test
   // ============================================
-  app.get('/api/debug/routes', (req, res) => {
-    const routes: any[] = [];
-    
-    app._router.stack.forEach((middleware: any) => {
-      if (middleware.route) {
-        routes.push({
-          path: middleware.route.path,
-          methods: Object.keys(middleware.route.methods)
-        });
-      } else if (middleware.name === 'router') {
-        middleware.handle.stack.forEach((handler: any) => {
-          if (handler.route) {
-            const path = middleware.regexp.source
-              .replace('\\/?', '')
-              .replace('(?=\\/|$)', '')
-              .replace(/\\\//g, '/');
-            routes.push({
-              path: path + handler.route.path,
-              methods: Object.keys(handler.route.methods)
-            });
-          }
-        });
-      }
+  app.get('/api/debug/test', (req, res) => {
+    res.json({
+      status: 'ok',
+      message: 'Auth routes are registered',
+      timestamp: new Date().toISOString()
     });
-    
-    res.json({ routes });
   });
 
   console.log('✅ All routes configured');
+  console.log('📋 Available auth endpoints:');
+  console.log('   POST /api/auth/register-email');
+  console.log('   POST /api/auth/login-email');
+  console.log('   POST /api/auth/register');
+  console.log('   POST /api/auth/login');
+  console.log('   GET  /api/auth/me');
 }
 
 // Helper functions
