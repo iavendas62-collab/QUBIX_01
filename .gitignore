@@ -100,8 +100,11 @@ start-*.bat
 START*.bat
 run-*.sh
 
-# Temporary markdown docs
+# Temporary markdown docs (session/context files)
+# Keep: README.md, docs/*.md, contracts/README.md, worker/README.md
+ACOMPANHAR_*.md
 APLICACOES_RODANDO.md
+CONFIGURAR_*.md
 ARQUITETURA_*.md
 ARQUIVOS_*.md
 AUTH_*.md
