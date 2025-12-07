@@ -47,6 +47,16 @@ export function Register() {
       return;
     }
 
+    // Validate password requirements
+    const hasUpperCase = /[A-Z]/.test(formData.password);
+    const hasLowerCase = /[a-z]/.test(formData.password);
+    const hasNumber = /[0-9]/.test(formData.password);
+
+    if (!hasUpperCase || !hasLowerCase || !hasNumber) {
+      setError('Password must contain uppercase, lowercase, and number');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -172,6 +182,9 @@ export function Register() {
               required
               minLength={8}
             />
+            <p className="text-xs text-gray-400 mt-1">
+              Must be 8+ characters with uppercase, lowercase, and number
+            </p>
           </div>
 
           <div>

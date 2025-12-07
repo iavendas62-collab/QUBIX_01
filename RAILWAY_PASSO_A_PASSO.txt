@@ -1,0 +1,181 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  🚨 RAILWAY - CONFIGURAÇÃO URGENTE DE VARIÁVEIS DE AMBIENTE     ║
+╚══════════════════════════════════════════════════════════════════╝
+
+O PROBLEMA:
+-----------
+DATABASE_URL e REDIS_URL não estão disponíveis no backend.
+O servidor está rodando mas SEM ACESSO ao banco de dados.
+
+SINTOMAS:
+---------
+✗ Error: Environment variable not found: DATABASE_URL
+✗ Error: connect ECONNREFUSED ::1:6379 (Redis)
+✗ Database health check failed
+✗ System health degraded
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  PASSO 1: VERIFICAR SERVIÇOS NO RAILWAY                         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+1. Acesse: https://railway.app
+2. Entre no seu projeto QUBIX_01
+3. Você deve ver 3 serviços:
+   
+   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
+   │  Backend    │  │ PostgreSQL  │  │   Redis     │
+   │  (seu app)  │  │  (database) │  │  (cache)    │
+   └─────────────┘  └─────────────┘  └─────────────┘
+
+4. Se NÃO tiver PostgreSQL ou Redis, adicione agora:
+   - Clique em "+ New"
+   - Selecione "Database"
+   - Escolha PostgreSQL e Redis
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  PASSO 2: CONFIGURAR DATABASE_URL NO BACKEND                    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+1. Clique no serviço BACKEND (não no PostgreSQL)
+2. Clique na aba "Variables"
+3. Procure por "DATABASE_URL"
+
+   OPÇÃO A - Se já existe DATABASE_URL:
+   ────────────────────────────────────
+   Verifique se o valor é:
+   ${{Postgres.DATABASE_URL}}
+   
+   Se não for, EDITE e mude para isso.
+
+   OPÇÃO B - Se NÃO existe DATABASE_URL:
+   ──────────────────────────────────────
+   Clique em "New Variable"
+   
+   Nome:  DATABASE_URL
+   Valor: ${{Postgres.DATABASE_URL}}
+   
+   ⚠️ IMPORTANTE: Use o nome EXATO do seu serviço PostgreSQL!
+   Se o serviço se chama "PostgreSQL", use ${{PostgreSQL.DATABASE_URL}}
+   Se se chama "database", use ${{database.DATABASE_URL}}
+
+4. Clique em "Add" ou "Save"
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  PASSO 3: ADICIONAR REDIS_URL NO BACKEND                        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+1. Ainda na aba "Variables" do BACKEND
+2. Clique em "New Variable"
+
+   Nome:  REDIS_URL
+   Valor: redis://default:${{Redis.REDIS_PASSWORD}}@${{Redis.RAILWAY_PRIVATE_DOMAIN}}:6379
+
+   ⚠️ IMPORTANTE: Use o nome EXATO do seu serviço Redis!
+   Se o serviço se chama "Redis", use o valor acima
+   Se tem outro nome, ajuste conforme necessário
+
+3. Clique em "Add"
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  PASSO 4: VERIFICAR OUTRAS VARIÁVEIS ESSENCIAIS                 ║
+╚══════════════════════════════════════════════════════════════════╝
+
+Certifique-se que o BACKEND tem estas variáveis:
+
+✓ DATABASE_URL (acabou de adicionar)
+✓ REDIS_URL (acabou de adicionar)
+✓ NODE_ENV = production
+✓ JWT_SECRET = (qualquer string longa e segura)
+✓ QUBIC_NETWORK = testnet (ou mainnet)
+✓ QUBIC_RPC_URL = https://testnet-rpc.qubic.org
+✓ QUBIC_PLATFORM_ADDRESS = (seu endereço Qubic)
+✓ QUBIC_PLATFORM_SEED = (sua seed Qubic)
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  PASSO 5: FORÇAR REDEPLOY                                       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+1. Vá na aba "Deployments" do BACKEND
+2. Clique nos 3 pontinhos do último deploy
+3. Clique em "Redeploy"
+4. Aguarde 5-8 minutos
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  PASSO 6: VERIFICAR LOGS                                        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+1. Vá na aba "Deployments"
+2. Clique no deploy em andamento
+3. Clique em "View Logs"
+
+PROCURE POR:
+
+✅ SUCESSO - Deve aparecer:
+   ✓ Prisma Client generated successfully
+   ✓ Migrations applied
+   ✓ Server started on port XXXX
+   ✓ Database connected
+
+❌ AINDA COM ERRO - Se aparecer:
+   ✗ Environment variable not found: DATABASE_URL
+   
+   VOLTE AO PASSO 2 e verifique:
+   - O nome do serviço PostgreSQL está correto?
+   - A variável foi salva?
+   - Você fez redeploy?
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  TROUBLESHOOTING                                                 ║
+╚══════════════════════════════════════════════════════════════════╝
+
+PROBLEMA: "Não sei o nome do meu serviço PostgreSQL"
+SOLUÇÃO:
+1. Vá no dashboard do Railway
+2. Clique no serviço PostgreSQL
+3. O nome aparece no topo da página
+4. Use esse nome exato em ${{NOME.DATABASE_URL}}
+
+PROBLEMA: "DATABASE_URL ainda não encontrada"
+SOLUÇÃO:
+1. Vá no serviço PostgreSQL → Variables
+2. Copie o valor COMPLETO de DATABASE_URL
+3. Vá no Backend → Variables
+4. Cole o valor DIRETAMENTE (não use ${{...}})
+   Exemplo: postgresql://postgres:senha@host:5432/railway
+
+PROBLEMA: "Redis ainda tenta localhost"
+SOLUÇÃO:
+1. Verifique se REDIS_URL foi adicionada
+2. Force um redeploy
+3. Aguarde completar
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  DEPOIS QUE FUNCIONAR                                            ║
+╚══════════════════════════════════════════════════════════════════╝
+
+Teste o registro:
+1. Acesse sua URL do Railway
+2. Clique em "Sign Up"
+3. Preencha:
+   - Email: teste@exemplo.com
+   - Senha: Teste123 (com maiúscula e número!)
+4. Deve criar conta com sucesso
+
+
+═══════════════════════════════════════════════════════════════════
+
+PRECISA DE AJUDA?
+-----------------
+1. Tire um print da aba Variables do Backend
+2. Tire um print dos logs do deploy
+3. Me mostre para eu ajudar
+
+═══════════════════════════════════════════════════════════════════
