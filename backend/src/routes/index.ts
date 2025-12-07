@@ -11,10 +11,7 @@ import { modelRoutes } from './models';
 import { statsRoutes } from './stats';
 import { transactionRoutes } from './transactions';
 import { earningsRoutes } from './earnings';
-import qubicRoutes from './qubic'; // Rotas Qubic que criamos
-import authRouter from './auth'; // Rotas de autenticação completas
-
-console.log('🔍 Auth router loaded:', typeof authRouter, authRouter ? 'OK' : 'FAILED');
+import qubicRoutes from './qubic';
 
 const prisma = new PrismaClient();
 

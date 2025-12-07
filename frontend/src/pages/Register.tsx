@@ -30,14 +30,28 @@ export function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
-    // 🔓 BYPASS: Mock registration
-    if (formData.email && formData.password) {
+    try {
+      // Validação básica
+      if (!formData.email || !formData.password) {
+        setError('Please fill in all fields');
+        setLoading(false);
+        return;
+      }
+
+      if (formData.password !== formData.confirmPassword) {
+        setError('Passwords do not match');
+        setLoading(false);
+        return;
+      }
+
+      // 🔓 MOCK REGISTRATION - Funciona sem backend
       const mockUser = {
         id: `user-${Date.now()}`,
         email: formData.email,
         username: formData.name || formData.email.split('@')[0],
-        qubicAddress: `MOCK${Math.random().toString(36).substring(2, 15).toUpperCase()}QUBICADDRESS`,
+        qubicAddress: `QUBIC${Math.random().toString(36).substring(2, 15).toUpperCase()}ADDRESS`,
         role: formData.type,
         balance: 1000
       };
@@ -51,16 +65,22 @@ export function Register() {
       localStorage.setItem('user', JSON.stringify(mockUser));
       localStorage.setItem('qubicAddress', mockUser.qubicAddress);
 
+      console.log('✅ Mock registration successful:', mockUser.email);
+
+      // Pequeno delay para parecer real
+      await new Promise(resolve => setTimeout(resolve, 500));
+
       setWalletInfo({
         identity: mockUser.qubicAddress,
         seed: mockSeed
       });
       setShowSeedModal(true);
-      setLoading(false);
-      return;
-    }
 
-    setError('Please fill in all fields');
+    } catch (err: any) {
+      setError(err.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleContinue = () => {
@@ -168,7 +188,13 @@ export function Register() {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-gray-400">
+        <div className="mt-4 p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-center">
+          <p className="text-xs text-cyan-400">
+            🔓 Demo Mode: Registration works offline!
+          </p>
+        </div>
+
+        <div className="mt-4 text-center text-sm text-gray-400">
           Already have an account?{' '}
           <Link to="/signin" className="text-cyan-400 hover:text-cyan-300">
             Sign in

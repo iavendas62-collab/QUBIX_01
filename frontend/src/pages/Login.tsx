@@ -24,52 +24,31 @@ export function Login() {
     setLoading(true);
 
     try {
-      // 🔓 BYPASS: Admin login
-      if (formData.email === 'admin' && formData.password === 'admin') {
-        const mockUser = {
-          id: 'admin-001',
-          email: 'admin@qubix.io',
-          username: 'Admin',
-          qubicAddress: 'ADMINQUBICADDRESSABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMN',
-          role: 'CONSUMER',
-          balance: 10000
-        };
+      // 🔓 MOCK LOGIN - Funciona sem backend
+      // Qualquer email/senha funciona para demo
+      const mockUser = {
+        id: `user-${Date.now()}`,
+        email: formData.email || 'demo@qubix.io',
+        username: formData.email?.split('@')[0] || 'Demo User',
+        qubicAddress: `QUBIC${Math.random().toString(36).substring(2, 15).toUpperCase()}ADDRESS`,
+        role: 'CONSUMER',
+        balance: 10000
+      };
 
-        const mockToken = btoa(JSON.stringify(mockUser));
-        localStorage.setItem('token', mockToken);
-        localStorage.setItem('user', JSON.stringify(mockUser));
-        localStorage.setItem('qubicAddress', mockUser.qubicAddress);
+      const mockToken = btoa(JSON.stringify(mockUser));
+      localStorage.setItem('token', mockToken);
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      localStorage.setItem('qubicAddress', mockUser.qubicAddress);
 
-        navigate('/app/dashboard');
-        return;
-      }
-
-      // Try backend
-      const response = await fetch(apiUrl('auth/login-email'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        })
-      });
-
-      const data: LoginResponse = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
-      }
-
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      if (data.user?.qubicAddress) {
-        localStorage.setItem('qubicAddress', data.user.qubicAddress);
-      }
-
+      console.log('✅ Mock login successful:', mockUser.email);
+      
+      // Pequeno delay para parecer real
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
       navigate('/app/dashboard');
 
     } catch (err: any) {
-      setError(err.message || 'Invalid email or password');
+      setError(err.message || 'Login failed');
     } finally {
       setLoading(false);
     }
@@ -132,7 +111,7 @@ export function Login() {
 
         <div className="mt-4 p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-center">
           <p className="text-xs text-cyan-400">
-            🔓 Demo Access: <span className="font-mono">admin / admin</span>
+            🔓 Demo Mode: Any email/password works!
           </p>
         </div>
       </div>
