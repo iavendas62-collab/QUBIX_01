@@ -90,6 +90,23 @@ monitorDatabaseConnection().catch((error) => {
   logger.warn('Backend running without database connection - some features may be limited');
 });
 
+// Serve frontend static files in production
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  const frontendPath = path.join(__dirname, '../../frontend/dist');
+  
+  app.use(express.static(frontendPath));
+  
+  // Handle client-side routing - serve index.html for all non-API routes
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(path.join(frontendPath, 'index.html'));
+    }
+  });
+  
+  logger.info({ path: frontendPath }, 'Serving frontend static files');
+}
+
 // Start server
 server.listen(PORT, () => {
   logger.info({ port: PORT }, 'Qubix Backend started');

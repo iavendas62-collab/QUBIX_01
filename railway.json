@@ -1,25 +1,14 @@
 {
+  "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "npm run build"
   },
   "deploy": {
     "startCommand": "npm run start:prod",
-    "healthcheckPath": "/health",
+    "healthcheckPath": "/api/health",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
-  },
-  "environments": {
-    "production": {
-      "variables": {
-        "NODE_ENV": "production",
-        "PORT": "$PORT",
-        "DATABASE_URL": "$DATABASE_URL",
-        "JWT_SECRET": "$JWT_SECRET",
-        "QUBIC_NETWORK": "mainnet",
-        "QUBIC_RPC_URL": "https://rpc.qubic.org",
-        "LOG_LEVEL": "info"
-      }
-    }
   }
 }
