@@ -36,21 +36,10 @@ export function setupRoutes(app: Express, services: any) {
   });
 
   // ============================================
-  // AUTH ROUTES (usando routes/auth.ts completo)
+  // AUTH ROUTES - Direct implementation
   // ============================================
-  console.log('📝 Registering auth routes from routes/auth.ts');
-  console.log('🔍 authRouter type:', typeof authRouter);
-  console.log('🔍 authRouter stack length:', authRouter?.stack?.length || 'no stack');
-
-  if (!authRouter) {
-    console.error('❌ authRouter is undefined! Using fallback routes only.');
-    // Register fallback auth routes later after simpleAuthRouter is created
-  } else {
-    app.use('/api/auth', authRouter);
-    console.log('✅ Auth routes registered from routes/auth.ts');
-  }
-
-  // AUTH ROUTES SIMPLIFICADAS (fallback)
+  console.log('📝 Setting up auth routes (direct implementation)');
+  
   const simpleAuthRouter = Router();
 
   // Register with email (DIRECT IMPLEMENTATION)
@@ -294,16 +283,13 @@ export function setupRoutes(app: Express, services: any) {
     }
   });
 
+  // SEMPRE registrar simpleAuthRouter em /api/auth (tem as rotas que funcionam)
+  app.use('/api/auth', simpleAuthRouter);
+  console.log('✅ Simple auth routes registered at /api/auth');
+  
+  // Também registrar em rotas alternativas
   app.use('/api/auth-simple', simpleAuthRouter);
-
-  // Register fallback auth routes if main authRouter failed
-  if (!authRouter) {
-    app.use('/api/auth', simpleAuthRouter);
-    console.log('✅ Fallback auth routes registered');
-  } else {
-    // Register simple auth as additional fallback
-    app.use('/api/auth-fallback', simpleAuthRouter);
-  }
+  app.use('/api/auth-fallback', simpleAuthRouter);
 
   // ============================================
   // QUBIC BLOCKCHAIN ROUTES (AUTO FALLBACK SYSTEM)
