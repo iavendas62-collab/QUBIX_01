@@ -36,7 +36,9 @@ export function setupRoutes(app: Express, services: any) {
   // ============================================
   // AUTH ROUTES (usando routes/auth.ts completo)
   // ============================================
+  console.log('📝 Registering auth routes from routes/auth.ts');
   app.use('/api/auth', authRouter);
+  console.log('✅ Auth routes registered');
 
   // AUTH ROUTES SIMPLIFICADAS (fallback)
   const simpleAuthRouter = Router();
@@ -306,6 +308,37 @@ export function setupRoutes(app: Express, services: any) {
   });
 
   app.use('/api/wallet', walletRouter);
+
+  // ============================================
+  // DEBUG ROUTE - List all registered routes
+  // ============================================
+  app.get('/api/debug/routes', (req, res) => {
+    const routes: any[] = [];
+    
+    app._router.stack.forEach((middleware: any) => {
+      if (middleware.route) {
+        routes.push({
+          path: middleware.route.path,
+          methods: Object.keys(middleware.route.methods)
+        });
+      } else if (middleware.name === 'router') {
+        middleware.handle.stack.forEach((handler: any) => {
+          if (handler.route) {
+            const path = middleware.regexp.source
+              .replace('\\/?', '')
+              .replace('(?=\\/|$)', '')
+              .replace(/\\\//g, '/');
+            routes.push({
+              path: path + handler.route.path,
+              methods: Object.keys(handler.route.methods)
+            });
+          }
+        });
+      }
+    });
+    
+    res.json({ routes });
+  });
 
   console.log('✅ All routes configured');
 }
