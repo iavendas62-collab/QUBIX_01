@@ -1,13 +1,10 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
-  schemas   = ["qubix"]
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -25,16 +22,12 @@ model User {
   providers     Provider[]
   jobs          Job[]
   transactions  Transaction[]
-
-
 }
 
 enum Role {
   CONSUMER
   PROVIDER
   BOTH
-
-
 }
 
 model Provider {
@@ -73,15 +66,11 @@ model Provider {
   
   jobs            Job[]
   metrics         ProviderMetric[]
-
-
 }
 
 enum ProviderType {
   BROWSER
   NATIVE
-
-
 }
 
 model Job {
@@ -135,8 +124,6 @@ model Job {
   transaction     Transaction?
   logs            JobLog[]
   metrics         JobMetric[]
-
-
 }
 
 enum JobStatus {
@@ -146,8 +133,6 @@ enum JobStatus {
   COMPLETED
   FAILED
   CANCELLED
-
-
 }
 
 model Transaction {
@@ -169,7 +154,6 @@ model Transaction {
   
   @@index([userId, createdAt])
   @@index([qubicTxHash])
-
 }
 
 enum TransactionType {
@@ -178,16 +162,12 @@ enum TransactionType {
   REFUND
   ESCROW_LOCK
   ESCROW_RELEASE
-
-
 }
 
 enum TransactionStatus {
   PENDING
   COMPLETED
   FAILED
-
-
 }
 
 model ProviderMetric {
@@ -204,7 +184,6 @@ model ProviderMetric {
   timestamp       DateTime  @default(now())
   
   @@index([providerId, timestamp])
-
 }
 
 model JobLog {
@@ -217,7 +196,6 @@ model JobLog {
   message         String
   
   @@index([jobId, timestamp])
-
 }
 
 model JobMetric {
@@ -233,7 +211,6 @@ model JobMetric {
   powerUsage      Float?
   
   @@index([jobId, timestamp])
-
 }
 
 model Benchmark {
@@ -253,5 +230,4 @@ model Benchmark {
   @@unique([jobType, gpuModel])
   @@index([jobType])
   @@index([gpuModel])
-
 }
