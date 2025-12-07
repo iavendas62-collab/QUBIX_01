@@ -52,6 +52,12 @@ export class EarningsBroadcaster {
    */
   private async broadcastAllActiveProviderEarnings() {
     try {
+      // Skip if database is not available (Railway deployment)
+      if (!process.env.DATABASE_URL) {
+        console.log('⚠️ Database not configured, skipping earnings broadcast');
+        return;
+      }
+
       // Get all providers with running jobs
       const providersWithActiveJobs = await prisma.provider.findMany({
         where: {
