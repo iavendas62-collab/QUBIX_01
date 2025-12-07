@@ -5,10 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "prisma generate && tsc",
+    "build": "prisma generate || true && tsc",
     "start": "node dist/index.js",
-    "start:prod": "node dist/index.js",
-    "postinstall": "prisma generate",
+    "start:prod": "prisma generate && prisma migrate deploy && node dist/index.js",
+    "postinstall": "prisma generate || true",
     "test": "jest",
     "test:qubic": "tsx src/scripts/test-qubic-wallet.ts",
     "test:qubic-basico": "tsx src/scripts/test-qubic-basico.ts",
